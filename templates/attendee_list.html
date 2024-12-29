@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Attendees</h1>
+
+<a href="{% url 'attendee_create' %}" class="btn btn-primary mb-3">Add New Attendee</a>
+
+<div class="list-group">
+    {% for attendee in attendees %}
+    <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <strong>{{ attendee.name }}</strong> <span class="text-muted">({{ attendee.email }})</span>
+        </div>
+        <div class="btn-group" role="group" aria-label="Attendee Actions">
+            <a href="{% url 'attendee_detail' attendee.id %}" class="btn btn-info btn-sm">Details</a>
+            <a href="{% url 'attendee_update' attendee.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'attendee_delete' attendee.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No attendees found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

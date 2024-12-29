@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Tasks</h1>
+
+<a href="{% url 'task_create' %}" class="btn btn-primary mb-3">Create New Task</a>
+
+<div class="list-group">
+    {% for task in tasks %}
+    <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <strong>{{ task.name }}</strong> - {{ task.deadline }} - {{ task.status }}
+        </div>
+        <div class="btn-group" role="group" aria-label="Task Actions">
+            <a href="{% url 'task_detail' task.id %}" class="btn btn-info btn-sm">Details</a>
+            <a href="{% url 'task_update' task.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No tasks available.</p>
+    {% endfor %}
+</div>
+
+<a href="{% url 'event_list' %}" class="btn btn-secondary mt-3">Back to Events</a>
+{% endblock %}

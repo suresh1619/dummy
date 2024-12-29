@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Attendee List</h1>
+
+<ul>
+    {% for attendee in attendees %}
+    <li>
+        <strong>{{ attendee.name }}</strong> ({{ attendee.email }})
+        
+        <h3>Events Joined:</h3>
+        {% if attendee.events.all %}
+            <ul>
+            {% for event in attendee.events.all %}
+                <li>{{ event.name }} ({{ event.date }} - {{ event.location }})</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No events joined.</p>
+        {% endif %}
+
+        <a href="{% url 'attendee_update' attendee.id %}">Edit</a>
+        <a href="{% url 'attendee_delete' attendee.id %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'attendee_create' %}">Add New Attendee</a>
+<a href="{% url 'event_list' %}">Back to Events</a>
+{% endblock %}

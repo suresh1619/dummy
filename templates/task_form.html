@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{% if task %}Edit{% else %}Create{% endif %} Task</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="name">Task Name:</label>
+    <input type="text" name="name" value="{{ task.name|default_if_none:'' }}" required><br>
+    <label for="deadline">Deadline:</label>
+    <input type="date" name="deadline" value="{{ task.deadline|default_if_none:'' }}" required><br>
+    <label for="status">Status:</label>
+    <select name="status" required>
+        <option value="Pending" {% if task and task.status == "Pending" %}selected{% endif %}>Pending</option>
+        <option value="Completed" {% if task and task.status == "Completed" %}selected{% endif %}>Completed</option>
+    </select><br>
+    <label for="event">Event:</label>
+    <select name="event" required>
+        {% for event in events %}
+        <option value="{{ event.id }}" {% if task and task.event.id == event.id %}selected{% endif %}>{{ event.name }}</option>
+        {% endfor %}
+    </select><br>
+    <label for="attendee">Assignee (optional):</label>
+    <select name="attendee">
+        <option value="">None</option>
+        {% for attendee in attendees %}
+        <option value="{{ attendee.id }}" {% if task and task.attendee and task.attendee.id == attendee.id %}selected{% endif %}>{{ attendee.name }}</option>
+        {% endfor %}
+    </select><br>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}
